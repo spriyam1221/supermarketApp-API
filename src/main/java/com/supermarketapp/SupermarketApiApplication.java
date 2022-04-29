@@ -1,4 +1,4 @@
-package com.supermarketApp.SupermarketAPI;
+package com.supermarketapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
