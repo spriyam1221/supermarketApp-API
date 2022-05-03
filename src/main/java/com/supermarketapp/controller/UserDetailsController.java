@@ -50,18 +50,18 @@ public class UserDetailsController {
 		List<User> UserList = userRepository.findAll();
 		return UserList;
 	}
-	@DeleteMapping("Users/{id}")
-	public void delete(@PathVariable("id") Integer id) {
-		userRepository.deleteById(id);
+	@DeleteMapping("Users/{userId}")
+	public void delete(@PathVariable("userId") Integer userId) {
+		userRepository.deleteById(userId);
 	}
 	@PutMapping("Users/{userId}")
 	public void update(@PathVariable("userId") Integer userId, @RequestBody User user) {
 		user.setUserId(userId);
 		userRepository.save(user);
 	}
-	@GetMapping("Users/{id}")
-	public User findById(@PathVariable("id") Integer id) {
-		Optional<User> user = userRepository.findById(id);
+	@GetMapping("Users/{userId}")
+	public User findById(@PathVariable("userId") Integer userId) {
+		Optional<User> user = userRepository.findById(userId);
 		if (user.isPresent()) {
 			return user.get();
 		} else {
