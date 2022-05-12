@@ -2,9 +2,12 @@ package com.supermarketapp.controller;
 
 import java.util.List;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,8 +17,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.supermarketapp.dto.MessageDTO;
+import com.supermarketapp.exception.ServiceException;
+import com.supermarketapp.exception.ValidationException;
 import com.supermarketapp.model.Product;
+import com.supermarketapp.model.User;
 import com.supermarketapp.repository.ProductRepository;
+import com.supermarketapp.service.ProductService;
+
 
 @RestController
 public class ProductDetailsController {
@@ -23,11 +32,32 @@ public class ProductDetailsController {
 	@Autowired
 	ProductRepository productRepository;
 
+	@Autowired
+	ProductService productService;
+	
 	@PostMapping("products/save")
-	public void save(@RequestBody Product product) {
-		productRepository.save(product);
-		System.out.println("Add product");
-      
+//	public ResponseEntity<?> save(@RequestBody Product product) {
+//
+//		try {
+//			productService.save(product);
+//			return new ResponseEntity<String>("success", HttpStatus.OK) ;
+//		} catch (ValidationException e) {
+//			System.out.println(e.getMessage());
+//			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//		
+//		}catch(ServiceException e) {
+//			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//      }
+	public ResponseEntity<?> save(@RequestBody Product product) {
+		try {
+			productService.save(product);
+			MessageDTO message = new MessageDTO("Success");
+			return new ResponseEntity<>(message, HttpStatus.OK);
+		} catch (Exception e) {
+			MessageDTO message = new MessageDTO(e.getMessage());
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping("products/list")

@@ -13,20 +13,13 @@ import org.springframework.stereotype.Repository;
 import com.supermarketapp.model.Order;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order,Integer> {
+public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-	 List<Order> findByUserId( Integer userId);
-      
-//	  @Query(update set id=? Where status=?);
-//	  Integer update(Integer id);
-	  
-	  @Transactional
-		@Modifying
-		@Query("update orders o set o.status = :status where o.id=:id")
-		void changestatus(@Param("id") Integer id, @Param("status") String status);
+	List<Order> findByUserId(Integer userId);
 
-//	Integer update(Integer id, String status);
+	@Transactional
+	@Modifying
+	@Query("update orders o set o.status = :status where o.id=:id")
+	void changestatus(@Param("id") Integer id, @Param("status") String status);
 
-	
-		
 }
